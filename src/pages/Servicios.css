@@ -1,0 +1,206 @@
+.page-servicios-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3.5rem;
+}
+
+.servicios-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.subtitulo-seccion {
+  display: inline-block;
+  color: #38bdf8;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+}
+
+.servicios-header h1 {
+  font-size: 2.2rem;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+}
+
+.servicios-header p {
+  color: #94a3b8;
+  font-size: 1rem;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Grilla Responsiva: 2 columnas en pantallas medianas/grandes */
+.grilla-servicios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* Tarjeta de Servicio */
+.tarjeta-servicio {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarjeta-servicio:hover {
+  transform: translateY(-4px);
+  border-color: #38bdf8;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Contenedor de la Foto Estática */
+.imagen-wrapper {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background-color: #0f172a;
+  overflow: hidden;
+  
+  transition: height 0.35s ease-in-out;
+}
+
+.imagen-wrapper.imagen-desplegada {
+  height: 600px;             /* Se expande hacia abajo mostrando la foto completa */
+}
+
+.imagen-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  
+  object-position: center;
+  display: block;
+}
+
+/* Botón flotante para avisar que se puede abrir */
+.badge-acordeon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(15, 23, 42, 0.85);
+  color: #38bdf8;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  backdrop-filter: blur(4px);
+  user-select: none;
+}
+
+.badge-categoria {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgba(15, 23, 42, 0.85);
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+/* Cuerpo de la Tarjeta */
+.tarjeta-contenido {
+  padding: 1.3rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.tarjeta-contenido h3 {
+  font-size: 1.25rem;
+  color: #f8fafc;
+  margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+
+.descripcion-servicio {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin-bottom: 1rem;
+}
+
+/* Lista de Fallas Frecuentes */
+.bloque-fallas {
+  background-color: #0f172a;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.titulo-fallas {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #38bdf8;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.5px;
+}
+
+.bloque-fallas ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bloque-fallas li {
+  font-size: 0.84rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+  margin-bottom: 0.25rem;
+}
+
+.bloque-fallas li:last-child {
+  margin-bottom: 0;
+}
+
+/* Marcas Atendidas */
+.bloque-marcas {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  margin-bottom: 1.2rem;
+}
+
+.bloque-marcas strong {
+  color: #e2e8f0;
+}
+
+/* Botón de Contacto */
+.tarjeta-acciones {
+  margin-top: auto;
+}
+
+.btn-cotizar-servicio {
+  display: block;
+  text-align: center;
+  background-color: #0284c7;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-cotizar-servicio:hover {
+  background-color: #0369a1;
+  transform: translateY(-1px);
+}

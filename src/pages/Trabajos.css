@@ -1,0 +1,248 @@
+.page-trabajos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+}
+
+.trabajos-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.subtitulo-seccion {
+  display: inline-block;
+  color: #38bdf8;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+}
+
+.trabajos-header h1 {
+  font-size: 2.2rem;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+}
+
+.trabajos-header p {
+  color: #94a3b8;
+  font-size: 1rem;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Grilla Responsiva */
+.trabajos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 2rem;
+}
+
+/* Tarjeta */
+.trabajo-card {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trabajo-card:hover {
+  transform: translateY(-4px);
+  border-color: #38bdf8;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Contenedor de la foto y carrusel */
+.trabajo-imagen-wrapper {
+  position: relative;
+  width: 100%;
+  height: 270px;
+  background-color: #0f172a;
+  user-select: none;
+}
+
+.trabajo-imagen-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Badges */
+.badge-zona {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(15, 23, 42, 0.85);
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.badge-fase {
+  position: absolute;
+  bottom: 28px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  backdrop-filter: blur(3px);
+  z-index: 2;
+}
+
+/* Flechas */
+.btn-flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(15, 23, 42, 0.75);
+  color: #ffffff;
+  border: none;
+  font-size: 1.1rem;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  z-index: 2;
+}
+
+.btn-flecha:hover {
+  background-color: #38bdf8;
+  color: #0f172a;
+}
+
+.btn-flecha-izq {
+  left: 8px;
+}
+
+.btn-flecha-der {
+  right: 8px;
+}
+
+/* Puntos */
+.carrusel-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.dot-activo {
+  background-color: #38bdf8;
+  transform: scale(1.25);
+}
+
+/* Contenido de la tarjeta */
+.trabajo-contenido {
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.trabajo-contenido h3 {
+  font-size: 1.15rem;
+  color: #f8fafc;
+  margin-bottom: 0.7rem;
+  line-height: 1.3;
+}
+
+.trabajo-contenido p {
+  color: #94a3b8;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  margin-bottom: 0.6rem;
+}
+
+.trabajo-contenido strong {
+  color: #e2e8f0;
+}
+
+.trabajo-acciones {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.btn-consultar-caso {
+  display: block;
+  text-align: center;
+  background-color: #0284c7;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-consultar-caso:hover {
+  background-color: #0369a1;
+}
+
+/* Contenedor adaptado al formato vertical de Reel (9:16) */
+.contenedor-reel-facebook {
+  width: 100%;
+  max-width: 320px;            /* Ancho óptimo para que no se deforme en computadores */
+  height: 570px;               /* Altura proporcionada al Reel */
+  margin: 1.5rem auto;         /* Centrado horizontal automático */
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.contenedor-reel-facebook iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Ajuste para que el iframe de video use la misma casilla de las fotos */
+.trabajo-imagen-wrapper.video-wrapper-fix {
+  position: relative;
+  width: 100%;
+  height: 270px;
+  background-color: #020617;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trabajo-imagen-wrapper.video-wrapper-fix iframe {
+  width: 100%;
+  max-width: 270px;
+  height: 480px;         /* Altura completa nativa del Reel */
+  margin-top: -30px;     /* Desplaza el encuadre hacia arriba para centrar el Play */
+  border: none;
+}

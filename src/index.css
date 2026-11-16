@@ -1,0 +1,230 @@
+/* ============ RESET Y BASE ============ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* red de seguridad contra desbordes */
+  background-color: #0f172a;
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 18px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (max-width: 1024px) {
+  html,
+  body {
+    font-size: 16px;
+  }
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+p {
+  margin: 0;
+}
+
+img,
+iframe,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============ CONTENEDORES DE PÁGINA ============ */
+.page,
+.home-page,
+.page-container,
+.page-servicios-container,
+.page-trabajos-container,
+.productos-page {
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+/* ============ BANNER PRINCIPAL ============ */
+.hero-banner {
+  text-align: center;
+  padding: 1.5rem 1rem 0.5rem;
+}
+
+.hero-banner h1 {
+  font-size: clamp(1.7rem, 5vw, 2.6rem);
+  letter-spacing: -0.03em;
+  margin: 1rem 0;
+}
+
+.hero-banner p {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  max-width: 720px;
+  margin: 0 auto 1.5rem auto;
+  line-height: 1.5;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: #0284c7;
+  color: #ffffff;
+  padding: 0.8rem 1.6rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+
+.btn-primary:hover {
+  background-color: #0369a1;
+  transform: translateY(-1px);
+}
+
+/* ============ TARJETA DE PERFIL TÉCNICO ============ */
+.perfil-tecnico-card {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  width: 100%;
+  background-color: #8ecae5;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.2rem, 5vw, 3rem);
+  margin: 0.8rem auto 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.perfil-foto-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.perfil-foto {
+  width: clamp(130px, 30vw, 190px);
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #38bdf8;
+  box-shadow: 0 6px 12px rgba(56, 189, 248, 0.2);
+  margin: 0 auto;
+}
+
+.badge-verificado {
+  display: block;
+  margin-top: 0.6rem;
+  background-color: #0284c7;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+}
+
+.perfil-info {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.perfil-info h2 {
+  font-size: 1.8rem;
+  color: #0f172a;
+  margin: 0 0 0.3rem;
+  font-weight: 700;
+}
+
+.perfil-subtitulo {
+  color: #0284c7;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.8rem;
+}
+
+.perfil-descripcion {
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+
+.perfil-puntos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.punto-item {
+  color: #166534;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ============ CARACTERÍSTICAS DEL SERVICIO ============ */
+.home-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature-item {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.feature-item h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  color: #f8fafc;
+}
+
+.feature-item p {
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* ============ RESPONSIVO: CELULARES ============ */
+@media (max-width: 768px) {
+  .perfil-tecnico-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .perfil-info {
+    text-align: center;
+  }
+
+  .perfil-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .perfil-puntos {
+    text-align: left;
+  }
+}

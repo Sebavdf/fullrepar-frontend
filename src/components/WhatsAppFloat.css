@@ -1,0 +1,52 @@
+.whatsapp-float {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom)); /* respeta la barra inferior del iPhone */
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #25d366;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.85rem;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, background-color 0.2s ease;
+  animation: wsp-pulso 2.5s infinite;
+}
+
+.whatsapp-float:hover {
+  background-color: #1ebe5b;
+  transform: scale(1.06);
+}
+
+/* En celular solo se ve el ícono; el texto aparece en pantallas grandes */
+.whatsapp-float-texto {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .whatsapp-float {
+    right: 1.5rem;
+    bottom: 1.5rem;
+    padding: 0.85rem 1.2rem;
+  }
+
+  .whatsapp-float-texto {
+    display: inline;
+  }
+}
+
+@keyframes wsp-pulso {
+  0%   { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(37, 211, 102, 0.5); }
+  70%  { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 0 16px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+/* Respeta a quienes desactivan animaciones en su sistema */
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-float { animation: none; }
+}

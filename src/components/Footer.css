@@ -1,0 +1,138 @@
+/* Contenedor principal de extremo a extremo */
+.footer-container {
+  width: 100%;
+  background-color: #1e293b;
+  border-top: 1px solid #334155;
+  color: #cbd5e1;
+  margin-top: auto; /* Empuja el footer siempre al fondo de la pantalla */
+  box-sizing: border-box;
+}
+
+/* Contenido interno centrado alineado con el resto de la web */
+.footer-content {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.footer-col h4 {
+  color: #f8fafc;
+  font-size: 1.05rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  border-bottom: 2px solid #38bdf8;
+  display: inline-block;
+  padding-bottom: 0.25rem;
+}
+
+/* Marca en el Footer */
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.8rem;
+}
+
+.footer-logo .logo-brand {
+  color: #ffffff;
+}
+
+.footer-logo .logo-accent {
+  color: #38bdf8;
+}
+
+.footer-descripcion {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #94a3b8;
+  margin-bottom: 0.8rem;
+}
+
+.footer-cobertura {
+  display: block;
+  font-size: 0.85rem;
+  color: #38bdf8;
+  font-weight: 500;
+}
+
+/* Lista de enlaces */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.footer-links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #38bdf8;
+  padding-left: 4px;
+}
+
+/* Datos y Botón de Contacto */
+.footer-info-item {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  margin: 0 0 0.6rem 0;
+  line-height: 1.4;
+}
+
+.footer-info-item strong {
+  color: #f8fafc;
+}
+
+
+
+
+/* Franja inferior de copyright */
+.footer-bottom {
+  background-color: #0f172a;
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid #1e293b;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+/* Ajuste móvil */
+@media (max-width: 768px) {
+  .footer-content {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .footer-col h4 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+ 
+}
+
+/* Enlace de correo en el Footer */
+.footer-email-link {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.footer-email-link:hover {
+  color: #7dd3fc;
+  text-decoration: underline;
+}

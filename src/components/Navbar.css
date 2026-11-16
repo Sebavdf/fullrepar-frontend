@@ -1,0 +1,173 @@
+/* ============ NAVBAR ============ */
+.navbar-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.navbar-logo a {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.logo-brand {
+  color: #f8fafc;
+}
+
+.logo-accent {
+  color: #38bdf8;
+}
+
+/* Botón hamburguesa */
+.navbar-toggle {
+  background: none;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #f8fafc;
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+}
+
+/* Links y acciones: escondidos en celular hasta abrir el menú */
+.navbar-links,
+.navbar-actions {
+  display: none;
+  width: 100%;
+}
+
+.navbar-links.abierto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.8rem;
+}
+
+.navbar-actions.abierto {
+  display: block;
+  padding-top: 0.8rem;
+}
+
+.nav-item {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+.nav-item.active {
+  color: #38bdf8;
+  background-color: rgba(56, 189, 248, 0.1);
+}
+
+.btn-contacto-header {
+  display: block;
+  text-align: center;
+  background-color: #16a34a;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-contacto-header:hover {
+  background-color: #15803d;
+  transform: translateY(-1px);
+}
+
+/* ============ ESCRITORIO ============ */
+@media (min-width: 900px) {
+  .navbar-header {
+    flex-wrap: nowrap;
+    padding: 0.8rem 2rem;
+    gap: 1.5rem;
+  }
+
+  .navbar-toggle {
+    display: none;
+  }
+
+  .navbar-links,
+  .navbar-links.abierto {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    padding-top: 0;
+    gap: 0.4rem;
+  }
+
+  .navbar-actions,
+  .navbar-actions.abierto {
+    display: block;
+    width: auto;
+    padding-top: 0;
+  }
+
+  .btn-contacto-header {
+    white-space: nowrap;
+  }
+}
+
+
+/* Alinea el isotipo y el texto en una fila horizontal */
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0rem; /* Espacio entre el logo ilustrado y las palabras "FullRepar" */
+  text-decoration: none;
+}
+
+/* Controla el tamaño del isotipo para que encaje perfecto en el header */
+.logo-img {
+  height: 100px; /* Tamaño ideal para que no sea gigante pero sea visible el brazo y la llave */
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: lighten;
+}
+
+/* Agrupa las dos palabras */
+.logo-text {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.logo-brand {
+  color: #ffffff;
+}
+
+.logo-accent {
+  color: #38bdf8;
+}
+
+/* Responsivo para pantallas pequeñas de celular */
+@media (max-width: 768px) {
+  .logo-img {
+    height: 35px; /* Se achica un poco en pantallas pequeñas */
+  }
+}
