@@ -2,70 +2,45 @@
 import { useState, useEffect } from 'react';
 import './Productos.css'; // INTACTO: Mantenemos tu misma hoja de estilos
 
+
 export default function Productos() {
-  // 2. REEMPLAZO: Antes tenías "const catalogo = [ { id: 1... } ]" escrito a mano.
-  // Ahora 'catalogo' parte como un arreglo vacío [] y se llenará con lo que responda Spring Boot.
   const [catalogo, setCatalogo] = useState([]);
+  const [imagenAmpliada, setImagenAmpliada] = useState(null);
 
-  // 3. NUEVO: Estados de control visual mientras viaja la petición por red o si el backend está apagado
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(null);
-
-  // 4. NUEVO: Este bloque se ejecuta automáticamente UNA sola vez (por el "[]" final) cuando entras a /productos
   useEffect(() => {
-    // Dispara la petición GET pública hacia tu controlador de Spring Boot
     fetch('http://localhost:8080/api/repuestos')
-      .then((res) => {
-        // Verifica que el servidor haya respondido con código exitoso (200 OK)
-        if (!res.ok) {
-          throw new Error(`Error del servidor: ${res.status}`);
-        }
-        // Convierte la respuesta cruda HTTP en un arreglo de objetos JSON usable en JavaScript
-        return res.json();
-      })
-      .then((data) => {
-        // Mete los repuestos reales de Oracle dentro de la variable 'catalogo' y apaga el aviso de carga
-        setCatalogo(data);
-        setCargando(false);
-      })
-      .catch((err) => {
-        // Si Spring Boot está apagado o bloqueado por CORS, captura el fallo sin romper la pantalla
-        console.error('Error cargando repuestos:', err);
-        setError('No se pudo conectar con el servidor de repuestos.');
-        setCargando(false);
-      });
+      .then((res) => res.json())
+      .then((data) => setCatalogo(data))
+      .catch((err) => console.error('Error cargando catálogo:', err));
   }, []);
 
   return (
-    <section className="page productos-page">
-      {/* INTACTO: Tu cabecera original */}
-      <header className="page-header">
-        <h2>Catálogo de Repuestos</h2>
-        <p>Repuestos nuevos y componentes recuperados garantizados.</p>
-      </header>
+    <section className="page">
+      <h2>Repuestos Disponibles</h2>
+      <p>Repuestos nuevos y componentes recuperados garantizados.</p>
 
-      {/* 5. NUEVO: Renderizado condicional; solo aparecen en pantalla si están activos */}
-      {cargando && <p>Cargando catálogo desde Oracle...</p>}
-      {error && <p style={{ color: '#ff6b6b' }}>{error}</p>}
-
-      {/* 6. INTACTO: Tu grilla, tarjetas, clases CSS y botón de WhatsApp quedaron iguales,
-          porque los campos (prod.id, prod.estado, prod.nombre, prod.descripcion) ya coinciden con Oracle */}
       <div className="productos-grid">
         {catalogo.map((prod) => (
           <article key={prod.id} className="producto-card">
             {prod.imagenUrl && (
-  <img
-    src={prod.imagenUrl}
-    alt={prod.nombre}
-    style={{
-      width: '100%',
-      height: '180px',
-      objectFit: 'cover',
-      borderRadius: '8px',
-      marginBottom: '0.8rem'
-    }}
-  />
-)}
+              <img
+                src={prod.imagenUrl}
+                alt={prod.nombre}
+                title="Haz clic para ampliar"
+                onClick={() => setImagenAmpliada(prod)}
+                style={{
+                  width: '100%',
+                  height: '180px',
+                  objectFit: 'contain',
+                  backgroundColor: '#0b1324',
+                  padding: '0.4rem',
+                  borderRadius: '8px',
+                  marginBottom: '0.8rem',
+                  cursor: 'zoom-in'
+                }}
+              />
+            )}
+
             <span className="badge-estado">{prod.estado}</span>
             <h3>{prod.nombre}</h3>
             <p>{prod.descripcion}</p>
@@ -80,6 +55,41 @@ export default function Productos() {
           </article>
         ))}
       </div>
+
+      {/* Modal / Visor para ampliar la imagen */}
+      {imagenAmpliada && (
+        <div
+          onClick={() => setImagenAmpliada(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+            padding: '1rem',
+            cursor: 'zoom-out'
+          }}
+        >
+          <img
+            src={imagenAmpliada.imagenUrl}
+            alt={imagenAmpliada.nombre}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              maxWidth: '90vw',
+              maxHeight: '80vh',
+              borderRadius: '10px',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.6)',
+              cursor: 'default'
+            }}
+          />
+          <p style={{ color: '#fff', marginTop: '0.8rem', fontWeight: 'bold' }}>
+            {imagenAmpliada.nombre} — (Haz clic afuera para cerrar)
+          </p>
+        </div>
+      )}
     </section>
   );
 }
