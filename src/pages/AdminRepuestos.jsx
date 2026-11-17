@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 
 export default function AdminRepuestos() {
-  // Revisa si ya tienes un token guardado en el navegador
   const [token, setToken] = useState(localStorage.getItem('token_fullrepar') || '');
 
   // Estados para el formulario de Login
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  // Estados para crear un repuesto nuevo
+  // Estados para crear o editar un repuesto
+  const [editandoId, setEditandoId] = useState(null); // <-- Si tiene un ID, estamos en modo UPDATE
   const [nombre, setNombre] = useState('');
   const [estado, setEstado] = useState('Nuevo');
   const [descripcion, setDescripcion] = useState('');
-  const [imagenBase64, setImagenBase64] = useState(''); // <-- Guarda la imagen comprimida
+  const [imagenBase64, setImagenBase64] = useState('');
   const [repuestos, setRepuestos] = useState([]);
 
-  // Cargar lista actual de repuestos (público)
   const cargarRepuestos = () => {
     fetch('http://localhost:8080/api/repuestos')
       .then((res) => res.json())
@@ -29,7 +28,7 @@ export default function AdminRepuestos() {
     }
   }, [token]);
 
-  // 1. LOGIN MANUAL: Envía credenciales y guarda el token recibido en localStorage
+  // 1. LOGIN
   const manejarLogin = async (e) => {
     e.preventDefault();
     const res = await fetch('http://localhost:8080/api/auth/login', {
@@ -47,11 +46,10 @@ export default function AdminRepuestos() {
     }
   };
 
-  // Procesa la foto seleccionada desde el PC/celular y la comprime a Base64 liviano
+  // Comprimir imagen a Base64
   const manejarArchivoImagen = (e) => {
     const archivo = e.target.files[0];
     if (!archivo) {
-      setImagenBase64('');
       return;
     }
 
@@ -76,14 +74,37 @@ export default function AdminRepuestos() {
     lector.readAsDataURL(archivo);
   };
 
-  // 2. CREAR REPUESTO MANUAL: Rescata el token y lo pega en Authorization
-  const crearRepuesto = async (e) => {
-    e.preventDefault();
+  // Cargar datos en el formulario para editar
+  const iniciarEdicion = (item) => {
+    setEditandoId(item.id);
+    setNombre(item.nombre);
+    setEstado(item.estado);
+    setDescripcion(item.descripcion);
+    setImagenBase64(item.imagenUrl || '');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
+  const cancelarEdicion = () => {
+    setEditandoId(null);
+    setNombre('');
+    setEstado('Nuevo');
+    setDescripcion('');
+    setImagenBase64('');
+  };
+
+  // 2. CREAR (POST) O ACTUALIZAR (PUT) REPUESTO
+  const guardarRepuesto = async (e) => {
+    e.preventDefault();
     const miToken = localStorage.getItem('token_fullrepar');
 
-    const res = await fetch('http://localhost:8080/api/repuestos', {
-      method: 'POST',
+    // Si editandoId tiene valor usa PUT, si es null usa POST
+    const url = editandoId
+      ? `http://localhost:8080/api/repuestos/${editandoId}`
+      : 'http://localhost:8080/api/repuestos';
+    const metodo = editandoId ? 'PUT' : 'POST';
+
+    const res = await fetch(url, {
+      method: metodo,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${miToken}`
@@ -92,34 +113,53 @@ export default function AdminRepuestos() {
         nombre,
         estado,
         descripcion,
-        imagenUrl: imagenBase64 || null, // <-- Manda null a Oracle si no subiste foto
+        imagenUrl: imagenBase64 || null,
         disponible: true
       })
     });
 
+    if (res.status === 401 || res.status === 403) {
+      alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+      cerrarSesion();
+      return;
+    }
+
     if (res.ok) {
-      const nuevo = await res.json();
-      setRepuestos([...repuestos, nuevo]);
-      setNombre('');
-      setDescripcion('');
-      setImagenBase64('');
-      e.target.reset(); // <-- Limpia el nombre del archivo en el botón
-      alert('Repuesto guardado en Oracle');
+      const guardado = await res.json();
+      if (editandoId) {
+        setRepuestos(repuestos.map((item) => (item.id === editandoId ? guardado : item)));
+        alert('Repuesto actualizado en Oracle');
+      } else {
+        setRepuestos([...repuestos, guardado]);
+        alert('Repuesto guardado en Oracle');
+      }
+      cancelarEdicion();
+      e.target.reset();
     } else {
-      alert(`Error al guardar (Código ${res.status}). Revisa tu sesión.`);
+      alert(`Error al guardar (Código ${res.status}).`);
     }
   };
 
-  // 3. ELIMINAR REPUESTO MANUAL: También rescata y pega el token
+  // 3. ELIMINAR REPUESTO (DELETE)
   const eliminarRepuesto = async (id) => {
     const miToken = localStorage.getItem('token_fullrepar');
 
-    const res = await fetch(`http://localhost:8080/api/repuestos/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${miToken}`
+    const res = await fetch(`http://localhost:8080/api/repuestos/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${miToken}`
       }
     });
 
+    if (res.status === 401 || res.status === 403) {
+      alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+      cerrarSesion();
+      return;
+    }
+
     if (res.ok) {
       setRepuestos(repuestos.filter((item) => item.id !== id));
+      if (editandoId === id) cancelarEdicion();
     } else {
       alert(`No se pudo eliminar (Código ${res.status})`);
     }
@@ -128,9 +168,10 @@ export default function AdminRepuestos() {
   const cerrarSesion = () => {
     localStorage.removeItem('token_fullrepar');
     setToken('');
+    cancelarEdicion();
   };
 
-  // VISTA A: Si no hay token, muestra el Login
+  // VISTA A: Login
   if (!token) {
     return (
       <section className="page" style={{ maxWidth: '400px', margin: '3rem auto', padding: '1rem' }}>
@@ -156,7 +197,7 @@ export default function AdminRepuestos() {
     );
   }
 
-  // VISTA B: Si ya tienes token, muestra el panel de carga en Oracle
+  // VISTA B: Panel CRUD completo
   return (
     <section className="page" style={{ maxWidth: '700px', margin: '2rem auto', padding: '1rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -164,7 +205,13 @@ export default function AdminRepuestos() {
         <button onClick={cerrarSesion}>Cerrar sesión</button>
       </div>
 
-      <form onSubmit={crearRepuesto} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', margin: '1.5rem 0' }}>
+      <form onSubmit={guardarRepuesto} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', margin: '1.5rem 0' }}>
+        {editandoId && (
+          <p style={{ color: '#4dabf7', margin: 0, fontWeight: 'bold' }}>
+            Editando repuesto #{editandoId}
+          </p>
+        )}
+
         <input
           type="text"
           placeholder="Nombre del repuesto (ej: Presostato digital LG)"
@@ -191,9 +238,8 @@ export default function AdminRepuestos() {
           required
         />
 
-        {/* Casilla opcional para subir foto desde el dispositivo */}
         <label style={{ fontSize: '0.9rem' }}>
-          Foto del repuesto (Opcional):
+          {editandoId ? 'Cambiar foto (Opcional, conserva la actual si no eliges otra):' : 'Foto del repuesto (Opcional):'}
           <input
             type="file"
             accept="image/*"
@@ -203,24 +249,46 @@ export default function AdminRepuestos() {
         </label>
 
         {imagenBase64 && (
-          <img
-            src={imagenBase64}
-            alt="Vista previa"
-            style={{ width: '140px', height: '140px', objectFit: 'cover', borderRadius: '8px' }}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img
+              src={imagenBase64}
+              alt="Vista previa"
+              style={{ width: '140px', height: '140px', objectFit: 'contain', backgroundColor: '#0b1324', borderRadius: '8px' }}
+            />
+            <button type="button" onClick={() => setImagenBase64('')} style={{ color: '#ff6b6b' }}>
+              Quitar foto
+            </button>
+          </div>
         )}
 
-        <button type="submit" className="btn-primary-small">Guardar en Base de Datos</button>
+        <div style={{ display: 'flex', gap: '0.8rem' }}>
+          <button type="submit" className="btn-primary-small" style={{ flex: 1 }}>
+            {editandoId ? 'Actualizar Repuesto' : 'Guardar en Base de Datos'}
+          </button>
+
+          {editandoId && (
+            <button type="button" onClick={cancelarEdicion} style={{ padding: '0.6rem 1rem' }}>
+              Cancelar
+            </button>
+          )}
+        </div>
       </form>
 
       <h3>Inventario actual en Oracle ({repuestos.length})</h3>
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {repuestos.map((item) => (
-          <li key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.6rem 0', borderBottom: '1px solid #333' }}>
+          <li key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.6rem 0', borderBottom: '1px solid #333' }}>
             <span>
               <strong>#{item.id}</strong> - {item.nombre} ({item.estado}) {item.imagenUrl ? '📷' : ''}
             </span>
-            <button onClick={() => eliminarRepuesto(item.id)} style={{ color: '#ff6b6b' }}>Eliminar</button>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button onClick={() => iniciarEdicion(item)} style={{ color: '#4dabf7' }}>
+                Editar
+              </button>
+              <button onClick={() => eliminarRepuesto(item.id)} style={{ color: '#ff6b6b' }}>
+                Eliminar
+              </button>
+            </div>
           </li>
         ))}
       </ul>
